@@ -1,0 +1,28 @@
+image: python:3.11
+
+stages:
+  - install
+  - dvc-pull
+  - run
+
+before_script:
+  - pip install -r requirements.txt
+  - pip install dvc
+
+install:
+  stage: install
+  script:
+    - echo "Instalando dependências..."
+
+dvc-pull:
+  stage: dvc-pull
+  script:
+    - dvc pull
+  artifacts:
+    paths:
+      - dados/dataset.csv
+
+run:
+  stage: run
+  script:
+    - python src/modelo.py
